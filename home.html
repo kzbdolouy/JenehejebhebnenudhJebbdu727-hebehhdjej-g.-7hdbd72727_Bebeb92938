@@ -1,0 +1,343 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Kobra - Marketplace</title>
+  <link rel="icon" type="image/png" href="k.jpeg" />
+  <link rel="apple-touch-icon" href="k.jpeg" />
+  <meta name="description" content="Kobra - Marketplace" />
+  <style>
+    :root {
+      --bg: #fff;
+      --fg: #000;
+      --muted: #666;
+      --accent: #000;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    html, body {
+      height: 100%;
+      background: var(--bg);
+      color: var(--fg);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      line-height: 1.4;
+    }
+    
+    .page-wrapper {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+      width: 100%;
+    }
+    
+    /* Header */
+    .header {
+      padding: 24px 0;
+    }
+    
+    .header-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .logo {
+      font-size: 28px;
+      font-weight: 900;
+      letter-spacing: -0.5px;
+    }
+    
+    .header-buttons {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+    
+    .header-btn {
+      padding: 10px 20px;
+      border: 2px solid var(--fg);
+      background: transparent;
+      color: var(--fg);
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      font-size: 14px;
+    }
+    
+    .header-btn:hover {
+      background: var(--fg);
+      color: var(--bg);
+    }
+    
+    /* Dividers */
+    .divider-full {
+      height: 2px;
+      background: var(--fg);
+      width: 100%;
+    }
+    
+    .mirror-header {
+      padding: 40px 0;
+      position: relative;
+    }
+    
+    .mirror-title {
+      text-align: center;
+      font-size: 18px;
+      font-weight: 600;
+      position: relative;
+      display: inline-block;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 0 20px;
+      background: var(--bg);
+    }
+    
+    .mirror-divider {
+      position: absolute;
+      top: 50%;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: var(--fg);
+    }
+    
+    /* Banners */
+    .banners {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin: 30px 0 40px 0;
+    }
+    
+    .banner {
+      width: 100%;
+      height: 80px;
+      object-fit: cover;
+      border: 1px solid var(--muted);
+    }
+    
+    /* Cards */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+      margin: 0 0 40px 0;
+    }
+    
+    .card {
+      border: 2px solid var(--fg);
+      padding: 30px;
+      transition: all 0.3s ease;
+      position: relative;
+      background: var(--bg);
+    }
+    
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 6px 6px 0 var(--fg);
+    }
+    
+    .card-image {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      margin-bottom: 20px;
+      border: 1px solid var(--muted);
+    }
+    
+    .card-title {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 15px;
+      text-align: center;
+    }
+    
+    .card-button {
+      width: 100%;
+      padding: 12px;
+      border: 2px solid var(--fg);
+      background: transparent;
+      color: var(--fg);
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      margin-top: 10px;
+    }
+    
+    .card-button:hover {
+      background: var(--fg);
+      color: var(--bg);
+    }
+    
+    /* Footer */
+    .footer {
+      padding: 30px 0;
+      text-align: center;
+      color: var(--muted);
+      font-size: 14px;
+      border-top: 1px solid var(--muted);
+    }
+    
+    /* Mobile */
+    @media (max-width: 768px) {
+      .container {
+        padding: 0 16px;
+      }
+      
+      .header {
+        padding: 20px 0;
+      }
+      
+      .logo {
+        font-size: 24px;
+      }
+      
+      .header-buttons {
+        gap: 8px;
+      }
+      
+      .header-btn {
+        padding: 8px 12px;
+        font-size: 12px;
+      }
+      
+      .mirror-header {
+        padding: 30px 0;
+      }
+      
+      .banners {
+        grid-template-columns: 1fr;
+        gap: 15px;
+        margin: 20px 0 30px 0;
+      }
+      
+      .banner {
+        height: 60px;
+      }
+      
+      .cards-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+        margin: 0 0 30px 0;
+      }
+      
+      .card {
+        padding: 25px;
+      }
+      
+      .card-image {
+        height: 180px;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .container {
+        padding: 0 12px;
+      }
+      
+      .logo {
+        font-size: 22px;
+      }
+      
+      .header-buttons {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+        gap: 6px;
+      }
+      
+      .header-btn {
+        padding: 6px 10px;
+        font-size: 11px;
+      }
+      
+      .mirror-title {
+        font-size: 16px;
+        padding: 0 15px;
+      }
+      
+      .card {
+        padding: 20px;
+      }
+      
+      .card-title {
+        font-size: 18px;
+      }
+      
+      .footer {
+        padding: 25px 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-wrapper">
+    <div class="container">
+      <header class="header">
+        <div class="header-content">
+          <div class="logo">Kobra</div>
+          <div class="header-buttons">
+            <a href="error.html" class="header-btn">Swap</a>
+            <a href="error.html" class="header-btn">Balance</a>
+            <a href="error.html" class="header-btn">Account</a>
+          </div>
+        </div>
+      </header>
+    </div>
+    
+    <div class="divider-full"></div>
+    
+    <div class="container">
+      <div class="mirror-header">
+        <div class="mirror-divider"></div>
+        <div class="mirror-title">Активное зеркало</div>
+      </div>
+      
+      <div class="banners">
+        <img src="b1.png" alt="Banner 1" class="banner">
+        <img src="b2.png" alt="Banner 2" class="banner">
+      </div>
+      
+      <div class="cards-grid">
+        <div class="card">
+          <img src="1.png" alt="Первый магазин" class="card-image">
+          <div class="card-title">Первый</div>
+          <button class="card-button">Перейти в Магазин</button>
+        </div>
+        
+        <div class="card">
+          <img src="2.png" alt="Второй магазин" class="card-image">
+          <div class="card-title">Второй</div>
+          <button class="card-button">Перейти в Магазин</button>
+        </div>
+        
+        <div class="card">
+          <img src="3.png" alt="Третий магазин" class="card-image">
+          <div class="card-title">Третий</div>
+          <button class="card-button">Перейти в Магазин</button>
+        </div>
+      </div>
+    </div>
+    
+    <footer class="footer">
+      <div class="container">
+        Kobra Marketplace 2025
+      </div>
+    </footer>
+  </div>
+</body>
+</html>

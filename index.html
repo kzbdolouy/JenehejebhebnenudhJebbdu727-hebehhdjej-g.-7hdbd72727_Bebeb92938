@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Kobra - Marketplace</title>
+  <link rel="icon" type="image/png" href="k.jpeg" />
+  <link rel="apple-touch-icon" href="k.jpeg" />
+  <meta name="description" content="Kobra - Marketplace" />
+  <style>
+    :root {
+      --bg: #fff;
+      --fg: #000;
+      --muted: #666;
+    }
+    html, body {
+      height: 100%;
+      margin: 0;
+      background: var(--bg);
+      color: var(--fg);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    main {
+      text-align: center;
+      width: 100%;
+      max-width: 400px;
+      padding: 20px;
+    }
+    h1 {
+      font-size: 64px;
+      font-weight: 900;
+      margin: 0 0 10px 0;
+      letter-spacing: -1px;
+    }
+    p.subtitle {
+      font-size: 14px;
+      color: var(--muted);
+      margin-bottom: 16px;
+    }
+    .captcha-area {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+    canvas {
+      border: 2px solid var(--fg);
+      background: #fff;
+      width: 100%;
+      max-width: 260px;
+      height: 80px;
+    }
+    .controls {
+      display: flex;
+      gap: 6px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    input {
+      padding: 8px 10px;
+      font-size: 16px;
+      border: 1px solid var(--fg);
+      color: var(--fg);
+      background: transparent;
+      width: 130px;
+    }
+    button {
+      padding: 8px 12px;
+      border: 2px solid var(--fg);
+      background: var(--bg);
+      color: var(--fg);
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .msg {
+      font-size: 14px;
+      color: var(--muted);
+      margin-top: 4px;
+      min-height: 18px;
+    }
+    @media (max-width: 480px) {
+      h1 { font-size: 48px; margin-bottom: 6px; }
+      main { padding: 10px; }
+      .captcha-area { gap: 8px; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Kobra</h1>
+    <p class="subtitle">Подтвердите, что вы не робот</p>
+    <div class="captcha-area">
+      <canvas id="captchaCanvas" width="260" height="80"></canvas>
+      <div class="controls">
+        <input id="captchaInput" type="text" placeholder="Введите код" autocomplete="off">
+        <button id="checkBtn">OK</button>
+        <button id="refreshBtn">↻</button>
+      </div>
+      <div class="msg" id="message"></div>
+    </div>
+  </main>
+
+  <script>
+    (function(){
+      const canvas = document.getElementById('captchaCanvas');
+      const ctx = canvas.getContext('2d');
+      const input = document.getElementById('captchaInput');
+      const checkBtn = document.getElementById('checkBtn');
+      const refreshBtn = document.getElementById('refreshBtn');
+      const msg = document.getElementById('message');
+      let current = '';
+
+      function genCode(n=5) {
+        const chars = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789';
+        let s = '';
+        for (let i=0; i<n; i++) s += chars[Math.floor(Math.random()*chars.length)];
+        return s;
+      }
+
+      function drawCaptcha(code) {
+        const w = canvas.width, h = canvas.height;
+        ctx.clearRect(0,0,w,h);
+        ctx.fillStyle = '#fff';
+        ctx.fillRect(0,0,w,h);
+        for (let i=0;i<100;i++){
+          ctx.fillStyle = Math.random()>0.5 ? '#000':'#333';
+          ctx.fillRect(Math.random()*w, Math.random()*h, 1.5, 1.5);
+        }
+        const gap = w / (code.length + 1);
+        for (let i=0; i<code.length; i++) {
+          const ch = code[i];
+          const size = 30 + Math.random()*10;
+          ctx.save();
+          ctx.translate(gap*(i+1), h/2 + (Math.random()*10-5));
+          ctx.rotate((Math.random()*0.3 - 0.15));
+          ctx.font = `900 ${size}px Arial`;
+          ctx.fillStyle = '#000';
+          ctx.fillText(ch, -size/3, size/3);
+          ctx.restore();
+        }
+        for (let i=0;i<3;i++){
+          ctx.beginPath();
+          ctx.moveTo(Math.random()*w, Math.random()*h);
+          ctx.lineTo(Math.random()*w, Math.random()*h);
+          ctx.strokeStyle='rgba(0,0,0,0.5)';
+          ctx.stroke();
+        }
+      }
+
+      function refresh() {
+        current = genCode();
+        drawCaptcha(current);
+        msg.textContent = '';
+        input.value = '';
+      }
+
+      checkBtn.onclick = () => {
+        if (input.value.trim().toUpperCase() === current) {
+          msg.textContent = 'Успешно!';
+          setTimeout(()=>window.location.href='home.html',600);
+        } else {
+          msg.textContent = 'Ошибка. Попробуйте снова.';
+          setTimeout(refresh,500);
+        }
+      };
+
+      input.addEventListener('keydown', e => {
+        if(e.key === 'Enter') checkBtn.click();
+      });
+      refreshBtn.onclick = refresh;
+      refresh();
+    })();
+  </script>
+</body>
+</html>
